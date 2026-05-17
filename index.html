@@ -19,7 +19,7 @@
       <h1>Календарь тренировок</h1>
       <div class="stats-badge" id="statsBadge">Всего упражнений: 0</div>
     </div>
-  </div>
+  
 
   <div class="dashboard">
 
@@ -36,11 +36,71 @@
 
       <div class="calendar-days" id="calendarDaysContainer"></div>
       <div style="font-size: 11px; margin-top: 12px; text-align: center; opacity:0.7;">Клик по дню → показать тренировки</div>
-
     </div>
+
+    <div class="add-card">
+      <div class="from-title">Добавить упражнение</div>
+      <div class="input-group">
+        <label>Упражнение</label>
+        <input type="text" id="exerciseName" placeholder="Жим лежа, присед, становая..." autocomplete="off">
+      </div>
+
+      <div class="input-group">
+        <label>Вес (кг)</label>
+        <input type="number" id="weight" placeholder="70" step="2.5">
+      </div>
+
+      <div class="input-group">
+        <label>Количество подходов</label>
+        <input type="number" id="setsCount" placeholder="3" step="1" min="1" max="50">
+        </div>
+
+        <div class="input-group">
+          <label>Повторений за подход</label>
+          <input type="number" id="repsPerSet" placeholder="10" step="1" min="1">
+        </div>
+
+        <div class="input-group">
+          <label for="Дата"></label>
+          <input type="date" id="datePicker">
+        </div>
+
+        <button id="addWorkoutBtn">+ Добавить упражнение</button>
+        <div style="font-size: 12px; margin-top: 10px; opacity: 0.7; text-align: center;">
+        Одна запись = одно упражнение с указанием подходов
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="selected-date-badge" id="selectedDateLabel">Выбрано: Сегодня</div>
+  
+      <button id="filterTodayBtn" class="btn-secondary style="width:auto; padding:0.4rem 1rem;">Сегодня</button>
+      <button id="clearAllBtn" class="btn-secondary" style="background:#4a2f2f; width:auto;">Всё</button>
+      <button id="exportBtn" class="btn-secondary" style="background:#2f4b3c;">CSV</button>
+    </div>
+
+    <div class="workout-table-wrapper">
+      <table id="workoutTable">
+        <thead>
+          <tr>
+            <th>Упражнение</th>
+            <th>Вес</th>
+            <th>Подходы x Повторы</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody">
+          <tr class="empty-row">
+            <td colspan="4">Нажмите на день в календаре</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>Все данные сохраняются в браузере. Одна запись = одно упражнение с любым количеством подходов.</footer>
   </div>
-
-
   <script src="/js/utils.js"></script>
   <script src="/js/models.js"></script>
   <script src="/js/calendar.js"></script>

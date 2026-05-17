@@ -103,3 +103,10 @@ h1::before {
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
 }
+
+.cal-day {
+  background: #1e2436;
+  border-radius: 1rem;
+  padding: 0.6rem 0.2rem;
+}
+
