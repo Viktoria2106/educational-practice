@@ -1,126 +1,117 @@
-// Модуль календаря
+let currentMonth = new Date().getMonth()
+let currentYear = new Date().getFullYear()
+let selectedDate = new Date().toISOString().slice(0, 10)
 
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
-let selectedDate = new Date().toISOString().slice(0, 10);
-
-// Функция для обновления выбранной даты
-let onDateSelectedCallback = null;
+let onDateSelectedCallback = null
 
 function setOnDateSelectedCallback(callback) {
-    onDateSelectedCallback = callback;
+    onDateSelectedCallback = callback
 }
 
 function selectDate(dateStr) {
-    selectedDate = dateStr;
+    selectedDate = dateStr
+
+    const datePicker = document.getElementById("datePicker")
+    if (datePicker) datePicker.value = selectedDate
+
+    const selectedLabel = document.getElementById("selectedDateLabel")
+    if (selectedLabel) selectedLabel.innerHTML = `Выбрано: ${selectedDate}`
+    renderCalendar()
     
-    // Обновляем поле ввода даты
-    const datePicker = document.getElementById("datePicker");
-    if (datePicker) datePicker.value = selectedDate;
-    
-    // Обновляем отображение
-    const selectedLabel = document.getElementById("selectedDateLabel");
-    if (selectedLabel) selectedLabel.innerHTML = `📅 Выбрано: ${selectedDate}`;
-    
-    // Перерисовываем календарь
-    renderCalendar();
-    
-    // ВЫЗЫВАЕМ КОЛБЭК ДЛЯ ОБНОВЛЕНИЯ ТАБЛИЦЫ
     if (onDateSelectedCallback) {
-        onDateSelectedCallback(selectedDate);
+        onDateSelectedCallback(selectedDate)
     }
 }
 
 function renderCalendar() {
-    const container = document.getElementById("calendarDaysContainer");
-    if (!container) return;
+    const container = document.getElementById("calendarDaysContainer")
+    if (!container) return
     
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-    let startOffset = firstDayOfMonth.getDay();
-    startOffset = startOffset === 0 ? 6 : startOffset - 1;
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
+    let startOffset = firstDayOfMonth.getDay()
+    startOffset = startOffset === 0 ? 6 : startOffset - 1
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
     
-    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    document.getElementById("monthYearDisplay").innerText = `${monthNames[currentMonth]} ${currentYear}`;
+    const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+    document.getElementById("monthYearDisplay").innerText = `${monthNames[currentMonth]} ${currentYear}`
     
-    const workoutDates = getDatesWithWorkouts(); // из models.js
-    let daysHtml = "";
+    const workoutDates = getDatesWithWorkouts()
+    let daysHtml = ""
     
     for (let i = 0; i < startOffset; i++) {
-        daysHtml += `<div class="cal-day empty-day"></div>`;
+        daysHtml += `<div class="cal-day empty-day"></div>`
     }
     
     for (let d = 1; d <= daysInMonth; d++) {
-        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        const hasWorkout = workoutDates.has(dateStr);
-        const isSelected = (selectedDate === dateStr);
-        let classes = "cal-day";
-        if (hasWorkout) classes += " has-workout";
-        if (isSelected) classes += " selected";
-        daysHtml += `<div class="${classes}" data-date="${dateStr}">${d}</div>`;
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+        const hasWorkout = workoutDates.has(dateStr)
+        const isSelected = (selectedDate === dateStr)
+        let classes = "cal-day"
+        if (hasWorkout) classes += " has-workout"
+        if (isSelected) classes += " selected"
+        daysHtml += `<div class="${classes}" data-date="${dateStr}">${d}</div>`
     }
     
-    container.innerHTML = daysHtml;
+    container.innerHTML = daysHtml
     
     document.querySelectorAll('.cal-day[data-date]').forEach(el => {
         el.addEventListener('click', (e) => {
-            const date = el.getAttribute('data-date');
-            if (date) selectDate(date);
-        });
-    });
+            const date = el.getAttribute('data-date')
+            if (date) selectDate(date)
+        })
+    })
 }
 
 function prevMonth() {
     if (currentMonth === 0) {
-        currentMonth = 11;
-        currentYear--;
+        currentMonth = 11
+        currentYear--
     } else {
-        currentMonth--;
+        currentMonth--
     }
-    renderCalendar();
-    // После смены месяца вызываем колбэк для обновления таблицы (дата осталась та же)
+    renderCalendar()
     if (onDateSelectedCallback) {
-        onDateSelectedCallback(selectedDate);
+        onDateSelectedCallback(selectedDate)
     }
 }
 
 function nextMonth() {
     if (currentMonth === 11) {
-        currentMonth = 0;
-        currentYear++;
+        currentMonth = 0
+        currentYear++
     } else {
-        currentMonth++;
+        currentMonth++
     }
-    renderCalendar();
-    // После смены месяца вызываем колбэк для обновления таблицы (дата осталась та же)
+    renderCalendar()
+
     if (onDateSelectedCallback) {
-        onDateSelectedCallback(selectedDate);
+        onDateSelectedCallback(selectedDate)
     }
 }
 
 function setTodayFilter() {
-    const today = getTodayStr();
-    selectDate(today);
-    const [year, month] = today.split("-");
+    const today = getTodayStr()
+    selectDate(today)
+    const [year, month] = today.split("-")
     if (year && month) {
-        currentYear = parseInt(year);
-        currentMonth = parseInt(month) - 1;
-        renderCalendar();
+        currentYear = parseInt(year)
+        currentMonth = parseInt(month) - 1
+        renderCalendar()
         if (onDateSelectedCallback) {
-            onDateSelectedCallback(selectedDate);
+            onDateSelectedCallback(selectedDate)
         }
     }
 }
 
 function getSelectedDate() {
-    return selectedDate;
+    return selectedDate
 }
 
 function initCalendar() {
-    const today = getTodayStr();
-    selectedDate = today;
-    const [yy, mm] = today.split("-");
-    currentYear = parseInt(yy);
-    currentMonth = parseInt(mm) - 1;
-    renderCalendar();
+    const today = getTodayStr()
+    selectedDate = today
+    const [yy, mm] = today.split("-")
+    currentYear = parseInt(yy)
+    currentMonth = parseInt(mm) - 1
+    renderCalendar()
 }

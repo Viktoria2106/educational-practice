@@ -1,69 +1,62 @@
-// Главный файл приложения
-
 function bindEvents() {
   document.getElementById("addWorkoutBtn")?.addEventListener("click", () => {
-      const exercise = document.getElementById("exerciseName").value;
-      const weight = document.getElementById("weight").value;
-      const sets = document.getElementById("setsCount").value;
-      const reps = document.getElementById("repsPerSet").value;
-      let date = document.getElementById("datePicker").value;
+      const exercise = document.getElementById("exerciseName").value
+      const weight = document.getElementById("weight").value
+      const sets = document.getElementById("setsCount").value
+      const reps = document.getElementById("repsPerSet").value
+      let date = document.getElementById("datePicker").value
       if (!date) date = selectedDate;
       
       if (addWorkout(exercise, weight, sets, reps, date)) {
-          // Очищаем поле упражнения, остальные поля оставляем
-          document.getElementById("exerciseName").value = "";
-          
-          // Обновляем отображение
-          selectDate(date);
-          const [yy, mm] = date.split("-");
+          document.getElementById("exerciseName").value = ""
+
+          selectDate(date)
+          const [yy, mm] = date.split("-")
           if (yy && mm) {
-              currentYear = parseInt(yy);
-              currentMonth = parseInt(mm) - 1;
-              renderCalendar();
+              currentYear = parseInt(yy)
+              currentMonth = parseInt(mm) - 1
+              renderCalendar()
           }
-          renderWorkoutTable(); // ЯВНО ОБНОВЛЯЕМ ТАБЛИЦУ
-          updateStats();
+          renderWorkoutTable()
+          updateStats()
       }
-  });
+  })
   
   document.getElementById("prevMonthBtn")?.addEventListener("click", () => {
-      prevMonth();
-      // prevMonth уже вызывает renderCalendar и колбэк
-  });
+      prevMonth()
+  })
   
   document.getElementById("nextMonthBtn")?.addEventListener("click", () => {
-      nextMonth();
-  });
+      nextMonth()
+  })
   
   document.getElementById("filterTodayBtn")?.addEventListener("click", () => {
-      setTodayFilter();
-  });
+      setTodayFilter()
+  })
   
   document.getElementById("clearAllBtn")?.addEventListener("click", () => {
       if (deleteAllWorkouts()) {
-          renderAll();
+          renderAll()
       }
-  });
+  })
   
   document.getElementById("exportBtn")?.addEventListener("click", () => {
-      exportAllCSV();
-  });
+      exportAllCSV()
+  })
 }
 
 function init() {
-  loadData();
-  initCalendar();
+  loadData()
+  initCalendar()
   
-  // Устанавливаем колбэк для обновления таблицы при выборе даты
   setOnDateSelectedCallback(function(date) {
-      renderWorkoutTable();
-      updateStats();
-  });
+      renderWorkoutTable()
+      updateStats()
+  })
   
-  bindEvents();
-  initDatePickerSync();
-  renderAll();
+  bindEvents()
+  initDatePickerSync()
+  renderAll()
 }
 
-// Запуск приложения
-init();
+init()
