@@ -1,109 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/assets/logo.png">
-  
-  <title>Железный дневник | Календарь тренировок</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Железный дневник | Календарь тренировок</title>
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
-
 <body>
-  <div class="container">
+<div class="container">
     <div class="header">
-      <h1>Календарь тренировок</h1>
-      <div class="stats-badge" id="statsBadge">Всего упражнений: 0</div>
-    </div>
-  
-
-  <div class="dashboard">
-
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <button id="prevMonthBtn">◀</button>
-        <span class="month-year" id="monthYearDisplay">Май 2026</span>
-        <button id="nextMonthBtn">▶</button>
-      </div>
-
-      <div class="weekdays">
-        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
-      </div>
-
-      <div class="calendar-days" id="calendarDaysContainer"></div>
-      <div style="font-size: 11px; margin-top: 12px; text-align: center; opacity:0.7;">Клик по дню → показать тренировки</div>
+        <h1>Календарь тренировок</h1>
+        <div class="stats-badge" id="statsBadge">Всего упражнений: 0</div>
     </div>
 
-    <div class="add-card">
-      <div class="from-title">Добавить упражнение</div>
-      <div class="input-group">
-        <label>Упражнение</label>
-        <input type="text" id="exerciseName" placeholder="Жим лежа, присед, становая..." autocomplete="off">
-      </div>
-
-      <div class="input-group">
-        <label>Вес (кг)</label>
-        <input type="number" id="weight" placeholder="70" step="2.5">
-      </div>
-
-      <div class="input-group">
-        <label>Количество подходов</label>
-        <input type="number" id="setsCount" placeholder="3" step="1" min="1" max="50">
+    <div class="dashboard">
+        <div class="calendar-card">
+            <div class="calendar-header">
+                <button id="prevMonthBtn">◀</button>
+                <span class="month-year" id="monthYearDisplay">Май 2025</span>
+                <button id="nextMonthBtn">▶</button>
+            </div>
+            <div class="weekdays">
+                <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+            </div>
+            <div id="calendarDaysContainer" class="calendar-days"></div>
+            <div style="font-size: 11px; margin-top: 12px; text-align: center; opacity:0.7;">Клик по дню → показать тренировки</div>
         </div>
 
-        <div class="input-group">
-          <label>Повторений за подход</label>
-          <input type="number" id="repsPerSet" placeholder="10" step="1" min="1">
+        <div class="add-card">
+            <div class="form-title">Добавить упражнение</div>
+            <div class="input-group">
+                <label>Упражнение</label>
+                <input type="text" id="exerciseName" placeholder="Жим лежа, присед, становая..." autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Вес (кг)</label>
+                <input type="number" id="weight" placeholder="70" step="2.5">
+            </div>
+            <div class="input-group">
+                <label>Количество подходов</label>
+                <input type="number" id="setsCount" placeholder="3" step="1" min="1" max="50">
+            </div>
+            <div class="input-group">
+                <label>Повторений за подход</label>
+                <input type="number" id="repsPerSet" placeholder="10" step="1" min="1">
+            </div>
+            <div class="input-group">
+                <label>Дата</label>
+                <input type="date" id="datePicker">
+            </div>
+            <button id="addWorkoutBtn">➕ Добавить упражнение</button>
+            <div style="font-size: 12px; margin-top: 10px; opacity: 0.7; text-align: center;">
+                Одна запись = одно упражнение с указанием подходов
+            </div>
         </div>
-
-        <div class="input-group">
-          <label for="Дата"></label>
-          <input type="date" id="datePicker">
-        </div>
-
-        <button id="addWorkoutBtn">+ Добавить упражнение</button>
-        <div style="font-size: 12px; margin-top: 10px; opacity: 0.7; text-align: center;">
-        Одна запись = одно упражнение с указанием подходов
-        </div>
-      </div>
     </div>
 
     <div class="toolbar">
-      <div class="selected-date-badge" id="selectedDateLabel">Выбрано: Сегодня</div>
-      <button id="filterTodayBtn" class="btn-secondary" style="width:auto; padding:0.4rem 1rem;">Сегодня</button>
-      <button id="clearAllBtn" class="btn-secondary" style="background:#4a2f2f; width:auto;"> Всё</button>
-      <button id="exportBtn" class="btn-secondary" style="background:#2f4b3c;">⬇️ CSV</button>
-  </div>
-
-    <div class="workout-table-wrapper">
-      <table id="workoutTable">
-        <thead>
-          <tr>
-            <th>Упражнение</th>
-            <th>Вес</th>
-            <th>Подходы x Повторы</th>
-            <th>Действие</th>
-          </tr>
-        </thead>
-
-        <tbody id="tableBody">
-          <tr class="empty-row">
-            <td colspan="4">Нажмите на день в календаре</td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="selected-date-badge" id="selectedDateLabel">Выбрано: Сегодня</div>
+        <button id="filterTodayBtn" class="btn-secondary" style="width:auto; padding:0.4rem 1rem;">Сегодня</button>
+        <button id="clearAllBtn" class="btn-secondary" style="background:#4a2f2f; width:auto;"> Всё</button>
+        <button id="exportBtn" class="btn-secondary" style="background:#2f4b3c;">⬇️ CSV</button>
     </div>
 
+    <div class="workout-table-wrapper">
+        <table id="workoutTable">
+            <thead>
+                <tr><th>Упражнение</th><th>Вес</th><th>Подходы × Повторы</th><th>Действие</th></tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr class="empty-row"><td colspan="4">Нажмите на день в календаре</td></tr>
+            </tbody>
+        </table>
+    </div>
     <footer>Все данные сохраняются в браузере. Одна запись = одно упражнение с любым количеством подходов.</footer>
-  </div>
-  <script src="/js/utils.js"></script>
-  <script src="/js/models.js"></script>
-  <script src="/js/calendar.js"></script>
-  <script src="/js/ui.js"></script>
-  <script src="/js/app.js"></script>
+</div>
+
+<script src="/js/utils.js"></script>
+<script src="/js/models.js"></script>
+<script src="/js/calendar.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>
