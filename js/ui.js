@@ -1,20 +1,20 @@
 function renderWorkoutTable() {
-  const tbody = document.getElementById("tableBody")
-  if (!tbody) return
-  
-  const currentDate = typeof selectedDate !== 'undefined' ? selectedDate : getTodayStr()
-  const workoutsOfDay = getWorkoutsByDate(currentDate)
-  
-  if (workoutsOfDay.length === 0) {
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="4"> Нет упражнений на ${currentDate}. Добавьте через форму!</td></tr>`
-      return
-  }
-  
-  let html = ""
-  for (let w of workoutsOfDay) {
-      html += `<table>
-                  <td><strong>${escapeHtml(w.exercise)}</strong></td>
-                  <td>${w.weight} кг</td>
+
+    const tbody = document.getElementById("tableBody")
+    if (!tbody) return
+
+    const currentDate = typeof selectedDate !== 'undefined' ? selectedDate : getTodayStr()
+    const workoutsOfDay = getWorkoutsByDate(currentDate)
+
+    if (workoutsOfDay.length === 0) {
+        tbody.innerHTML = `<tr class="empty-row"><td colspan="4"> Нет упражнений на ${currentDate}. Добавьте через форму!</td></tr>`
+        return
+    }
+    let html = ""
+    for (let w of workoutsOfDay) {
+        html += `<table>
+                    <td><strong>${escapeHtml(w.exercise)}</strong></td>
+                    <td>${w.weight} кг</td>
                   <td><span class="sets-badge">${w.sets} подходов × ${w.reps} повтор.</span></td>
                   <td><button class="delete-single-btn" data-id="${w.id}" style="background:none; width:auto; padding:5px 10px; cursor:pointer;">🗑️</button></td>
                 </tr>`
